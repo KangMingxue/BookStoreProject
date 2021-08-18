@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="lib3">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/BookStore2/web/WEB-INF/lib/druid-1.1.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/BookStore2/web/WEB-INF/lib/commons-dbutils-1.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/BookStore2/web/WEB-INF/lib/commons-beanutils-1.8.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/BookStore2/web/WEB-INF/lib/mysql-connector-java-5.1.37-bin.jar!/" />
+      <root url="jar://$PROJECT_DIR$/BookStore2/web/WEB-INF/lib/commons-logging-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/BookStore2/web/WEB-INF/lib/commons-beanutils-bean-collections-1.8.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

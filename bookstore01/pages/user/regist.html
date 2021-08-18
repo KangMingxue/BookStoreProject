@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>尚硅谷会员注册页面</title>
+    <link type="text/css" rel="stylesheet" href="../../static/css/style.css" />
+    <link rel="stylesheet" href="../../static/css/register.css" />
+    <style type="text/css">
+      .login_form {
+        height: 420px;
+        margin-top: 25px;
+      }
+      /*
+          实现注册页面验证用户名合法性功能——步骤
+              1. 准备Vue环境
+              2. 为用户名设置双向绑定，@blur事件=checkUserName
+              3. 定义checkUserName函数，验证用户名合法性
+              4. 为注册按钮关联@click=checkRegist
+                  在函数内，this.checkUserName()
+              //动态绑定样式表
+              5. 准备样式表【显示】
+                  .login_banner .register_form form .form-item .vv{
+                      visibility: visible;
+                    }
+              6. 使用动态绑定样式表
+                  :class="{vv:isUnVv}"
+              7. data:{
+                    "isUnVv":false
+                  }
+       */
+      .login_banner .register_form form .form-item .vv{
+        visibility: visible;
+      }
+    </style>
+
+  </head>
+  <body>
+  <div id="context">
+    <div id="login_header">
+      <a href="../../index.html">
+        <img class="logo_img" alt="" src="../../static/img/logo.gif" />
+      </a>
+    </div>
+
+    <div class="login_banner">
+      <div class="register_form">
+        <h1>注册尚硅谷会员</h1>
+        <form action="regist_success.html">
+          <div class="form-item">
+            <div>
+              <label>用户名称:</label>
+              <input type="text" placeholder="请输入用户名" v-model="username" @blur="checkUserName" />
+            </div>
+<!--            css
+                    visibility:visible，显示
+                     visibility:hidden，隐藏
+                    -->
+            <span class="errMess" :class="{vv:isUnVv}">用户名：只能是6-12位，字母（大小写）、数字、_。</span>
+          </div>
+          <div class="form-item">
+            <div>
+              <label>用户密码:</label>
+              <input type="password" placeholder="请输入密码" v-model="password" @blur="checkPassword" />
+            </div>
+            <span class="errMess" :class="{vv:isPwdVv}">密码：只能是6位，字母（大小写）、数字。</span>
+          </div>
+          <div class="form-item">
+            <div>
+              <label>确认密码:</label>
+              <input type="password" placeholder="请输入确认密码" v-model="repwd" @blur="checkRePwd" />
+            </div>
+            <span class="errMess" :class="{vv:isRePwdVv}">密码两次输入不一致</span>
+          </div>
+          <div class="form-item">
+            <div>
+              <label>用户邮箱:</label>
+              <input type="text" placeholder="请输入邮箱" v-model="email" @blur="checkEmail" />
+            </div>
+            <span class="errMess" :class="{vv:isEmailVv}">请输入正确的邮箱格式</span>
+          </div>
+          <div class="form-item">
+            <div>
+              <label>验证码:</label>
+              <div class="verify">
+                <input type="text" placeholder="" v-model="code" @blur="checkCode" />
+                <img src="../../static/img/code.bmp" alt=""/>
+              </div>
+            </div>
+            <span class="errMess" :class="{vv:isCodeVv}">请输入正确的验证码</span>
+          </div>
+          <button class="btn" @click="checkRegist">注册</button>
+        </form>
+      </div>
+    </div>
+    <div id="bottom">
+      <span>
+        尚硅谷书城.Copyright &copy;2015
+      </span>
+    </div>
+  </div>
+  </body>
+  <script src="../../static/script/vue_v2.6.14.js"></script>
+  <script type="text/javascript">
+      new Vue({
+          el:"#context",
+          data:{
+              //双向绑定，获取数据
+              "username":"",
+              "password":"",
+              "repwd":"",
+              "email":"",
+              "code":"",
+              //动态绑定样式表
+              "isUnVv":false,     //显示用户名合法性
+              "isPwdVv":false,     //显示密码合法性
+              "isRePwdVv":false,
+              "isEmailVv":false,
+              "isCodeVv":false
+          },
+          methods:{
+              //验证用户名是否合法
+              checkUserName(){
+                  //将提示区域恢复默认：隐藏
+                  this.isUnVv = false;
+                  //a)用户名：只能是6-12位，字母（大小写）、数字、_。
+                  var unReg = /^[a-zA-Z0-9_]{6,12}$/;
+                  if(unReg.test(this.username) == false){
+                      //不合法
+                      // alert("用户名输入不合法，请重新输入！【用户名：只能是6-12位，字母（大小写）、数字、_。】");
+                      //将提示区域显示即可
+                      this.isUnVv = true;
+                      //取消控件默认行为
+                      event.preventDefault();
+                  }
+              },
+              //验证密码
+              checkPassword(){
+                  //恢复默认隐藏
+                  this.isPwdVv = false;
+                  //密码：只能是6位，字母（大小写）、数字。
+                  var pwdReg = /^[a-zA-Z0-9]{6}$/;
+                  if(pwdReg.test(this.password) == false){
+                      //提示用户【将提示区域显示】
+                      this.isPwdVv = true;
+                      //取消控件默认行为
+                      event.preventDefault();
+                  }
+              },
+              //验证确认密码
+              checkRePwd(){
+                    this.isRePwdVv = false;
+                    if(this.password != this.repwd){
+                        //提示用户两次密码不一致
+                        this.isRePwdVv = true;
+                        //取消控件默认行为
+                        event.preventDefault();
+                    }
+              },
+              //验证邮箱
+              checkEmail(){
+                    this.isEmailVv = false;
+                    //定义验证邮箱正则【c)邮箱：API中的标准验证。】
+                    var regEmail = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+                    if(regEmail.test(this.email) == false){
+                          //提示用户，输入有效格式不正确
+                          this.isEmailVv = true;
+                          //取消控件默认行为
+                          event.preventDefault();
+                    }
+
+              },
+              //验证码非空验证
+              checkCode(){
+                  this.isCodeVv = false;
+                  if(this.code == ""){
+                      //提示用户，验证码不能为空
+                      this.isCodeVv = true;
+                      //取消控件默认行为
+                      event.preventDefault();
+                  }
+              },
+              //单击注册按钮时，验证数据合法性
+              checkRegist(){
+                  this.checkUserName();
+                  this.checkPassword();
+                  this.checkRePwd();
+                  this.checkEmail();
+                  this.checkCode();
+              }
+          }
+
+      });
+
+
+  </script>
+</html>
